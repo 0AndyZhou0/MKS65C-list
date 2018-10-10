@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "list.h"
 
 //struct node { int i; struct node *next;};
@@ -10,14 +11,21 @@ void print_list(struct node * current){
   }
 }
 
-int main(){
-  struct node thing1;
-  struct node thing2;
-  thing1.i = 5;
-  thing1.next = &thing2;
-  thing2.i = 4;
-  thing2.next = NULL;
-  print_list(&thing1);
-  return 0;
+struct node * insert_front(struct node * node, int i){
+  struct node * new = (struct node *)malloc(8 + sizeof(struct node));
+  new -> i = i;
+  new -> next = &node;
+  return new;
 }
 
+int main(){
+  struct node thing;
+  thing.i = 5;
+  thing.next = NULL;
+  print_list(&thing);
+  thing = *insert_front(&thing,4);
+  print_list(&thing);
+  thing = *insert_front(&thing, 19);
+  print_list(&thing);
+  return 0;
+}
