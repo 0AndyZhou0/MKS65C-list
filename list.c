@@ -7,7 +7,7 @@
 void print_list(struct node * current){
   printf("[%d", current -> i);
   while(current = current -> next){
-    printf("\n%d", current -> i);
+    printf(", %d", current -> i);
   }
   printf("]\n");
 }
@@ -23,7 +23,15 @@ struct node * insert_front(struct node * head, int i){
   return head;
 }
 
-struct node * free_list(struct node * node);
+struct node * free_list(struct node * node){
+  if(node -> next){
+    free_list(node -> next);
+    node -> i = 0;
+    node -> next = 0;
+    free(node -> next);
+  }
+  return node;
+}
 
 int main(){
   struct node thing;
@@ -33,6 +41,14 @@ int main(){
   thing = *insert_front(&thing,4);
   print_list(&thing);
   thing = *insert_front(&thing, 19);
+  print_list(&thing);
+  thing = *insert_front(&thing, 9);
+  print_list(&thing);
+  thing = *insert_front(&thing, 42);
+  print_list(&thing);
+  thing = *insert_front(&thing, 10);
+  print_list(&thing);
+  free_list(&thing);
   print_list(&thing);
   return 0;
 }
